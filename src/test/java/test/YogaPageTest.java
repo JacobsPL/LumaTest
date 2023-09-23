@@ -13,7 +13,7 @@ public class YogaPageTest extends BaseTest{
 
 
     @Test
-    public void verifyThatItemListLengthIsCorrect(){
+    public void verifyThatItemListLengthIsCorrect() throws InterruptedException {
         YogaPage yogaPage = new YogaPage(driver);
         int displayedItems = yogaPage.getItemList().size();
         int selectedShowItemsPerPage = Integer.parseInt(yogaPage.getSelectedNumberPerPage().getAttribute("value"));

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -16,7 +17,8 @@ public class YogaPage {
     @FindBy(xpath = "//select[@id='limiter']/option[@selected]")
     private WebElement selectedNumberPerPage;
 
-    @FindBy (xpath = "//select[@id='limiter']")
+
+    @FindBy (xpath = "/html/body/div[2]/main/div[3]/div[1]/div[4]/div[3]/div/select")
     private WebElement selector;
 
     @FindBy (css = "[class='counter-number']")
@@ -29,7 +31,7 @@ public class YogaPage {
     public YogaPage(WebDriver driver){
         PageFactory.initElements(driver, this);
         this.driver = driver;
-        driver.get(getYogaURL());
+        driver.get(yogaURL);
         action = new Actions(driver);
     }
 
@@ -47,9 +49,9 @@ public class YogaPage {
         return selector;
     }
 
-    public void setNumberPerPage(){
-        int num = 36;
-        //numberPerPageSelector.selectByValue("24");
+    public void setNumberPerPage(String numberPerPage, WebElement pageSelector){
+        Select selectSelector = new Select(pageSelector);
+        selectSelector.selectByValue(numberPerPage);
     }
     public String getYogaURL() {
         return yogaURL;
