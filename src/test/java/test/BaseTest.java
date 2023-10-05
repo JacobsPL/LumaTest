@@ -13,15 +13,15 @@ public class BaseTest {
 
     @BeforeMethod
     public void Setup(){
-        //System.setProperty("webdriver.geco.driver","C:\\Users\\jakub\\OneDrive\\Pulpit\\Programowanko\\Selenium\\gecodriver-v0.33.0-win64\\geckodriver.exe");
+        System.setProperty("webdriver.geco.driver","C:\\Users\\jakub\\OneDrive\\Pulpit\\Programowanko\\Selenium\\gecodriver-v0.33.0-win64\\geckodriver.exe");
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://magento.softwaretestingboard.com");
     }
 
     @AfterMethod
     public void tearDown(){
-        //driver.quit();
+        driver.quit();
     }
 }

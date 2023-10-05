@@ -8,6 +8,8 @@ import pages.YogaPage;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class YogaPageTest extends BaseTest{
 
 
@@ -21,13 +23,28 @@ public class YogaPageTest extends BaseTest{
     }
 
     @Test
-    public void verifyAddingItemToCart(){
+    public void verifyAddingItemToCart() throws InterruptedException {
         YogaPage yogaPage = new YogaPage(driver);
-        WebElement signleItem = yogaPage.getItemList().get(0);
-        signleItem.click();
+        WebElement singleItem = yogaPage.getItemList().get(0);
+        singleItem.click();
 
         ItemPage itemPage = new ItemPage(driver);
-        itemPage.printSizeList();
+        WebElement sizeButton = itemPage.getNewSizeButton(itemPage.getSizeList().get(0));
+        sizeButton.click();
+
+        WebElement colorButton = itemPage.getNewColorButton("Purple");
+        colorButton.click();
+
+        int addingQuantity = 3;
+        itemPage.setItemsQuantity(addingQuantity);
+        itemPage.addItemToCart();
+
+        //Kinda works - need more elegant solution
+        sleep(5000);
+        int finalCartCount = itemPage.getCartCount();
+
+        //Assert that added items to the empty cart are equal to the cart size
+        Assert.assertEquals(addingQuantity,finalCartCount);
 
     }
 
