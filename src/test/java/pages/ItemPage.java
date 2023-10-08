@@ -1,4 +1,4 @@
-package test;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,7 +7,6 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,9 +16,14 @@ public class ItemPage {
     WebDriver driver;
 
     @FindAll(@FindBy( css = "[class='swatch-option text']"))
-    private List<WebElement> sizeBoxes;
+    private List<WebElement> sizeBoxesList;
+
     @FindAll(@FindBy( css = "[class='swatch-option color']"))
-    private List<WebElement> colorBoxes;
+    private List<WebElement> colorBoxesList;
+
+    @FindAll(@FindBy( css = "[data-role='collapsible']"))
+    private List<WebElement> descriptionTabsList;
+
 
     @FindBy(id = "qty")
     private WebElement quantityInputBox;
@@ -28,31 +32,48 @@ public class ItemPage {
     private WebElement addToCartButton;
 
     @FindBy( css = "[class='count']")
-    public WebElement cartCounter;
-
+    private WebElement cartCounter;
     @FindBy (css = "[class='action showcart']")
-    public WebElement cartIcon;
+    private WebElement cartIcon;
+
+    @FindBy (css = "[class='counter']")
+    private WebElement numberOfReviews;
+
+    private void goToFirstItemOnYogaPage(){
+        CategoryPage categoryPage = new CategoryPage(driver);
+        categoryPage.getItemList().get(0).click();
+    }
     public ItemPage(WebDriver driver){
         PageFactory.initElements(driver, this);
         this.driver = driver;
 
     }
 
-    List <String> getSizeList(){
-        List<String> sizeList = new ArrayList<>();
-        for (WebElement i:sizeBoxes) {
-            sizeList.add(i.getAttribute("textContent"));
-        }
+
+
+    public List <String> getSizeList(){
+        List<String> sizeList = sizeBoxesList
+                .stream()
+                .map(el->el.getAttribute("textContent"))
+                .toList();
+
         return sizeList;
     }
 
-    List<String> getColorList(){
-        List<String> colorList = new ArrayList<>();
-        for (WebElement i:colorBoxes) {
-            colorList.add(i.getAttribute("textContent"));
-        }
+    public List<String> getColorList(){
+        List<String> colorList = colorBoxesList
+                .stream()
+                .map(el->el.getAttribute("textContent"))
+                .toList();
         return colorList;
+    }
 
+    public List<String> getDescriptionTabList(){
+        List<String> descriptionTabList = descriptionTabsList
+                .stream()
+                .map(el->el.getAttribute("textContent"))
+                .toList();
+        return descriptionTabList;
     }
 
     public void printSizeList(){
@@ -87,6 +108,11 @@ public class ItemPage {
         cartIcon.click();
         System.out.println(cartCounter.getText());
         return Integer.parseInt(cartCounter.getText());
+    }
+
+    public int getNumberOfReviews(){
+        int num = Integer.parseInt(numberOfReviews.getAttribute("textContent"));
+        return num;
     }
 
 }
