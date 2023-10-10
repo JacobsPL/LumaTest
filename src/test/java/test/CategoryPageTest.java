@@ -26,7 +26,9 @@ public class CategoryPageTest extends BaseTest{
     public void verifyThatItemListLengthIsCorrect() throws InterruptedException {
         CategoryPage categoryPage = new CategoryPage(driver);
         int displayedItems = categoryPage.getItemList().size();
-        int selectedShowItemsPerPage = Integer.parseInt(categoryPage.getSelectedNumberPerPage().getAttribute("value"));
+        int selectedShowItemsPerPage = categoryPage.getSelectedNumberPerPage();
+        System.out.println(displayedItems);
+        System.out.println(selectedShowItemsPerPage);
         Assert.assertEquals(displayedItems,selectedShowItemsPerPage);
     }
 
@@ -47,6 +49,7 @@ public class CategoryPageTest extends BaseTest{
                 "Reviews "+itemPage.getNumberOfReviews() + " ");
     }
 
+    //BROKEN
     @Test
     public void verifyShoppingOptionCanBeExpanded() throws InterruptedException {
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -61,6 +64,28 @@ public class CategoryPageTest extends BaseTest{
         //Assert.assertEquals(textExpandable,"true");
     }
 
+    @Test
+    public void verifyChangeItemsPerPage() throws InterruptedException {
+        CategoryPage categoryPage = new CategoryPage(driver);
+        categoryPage.setNumberOfItemsPerPage("24",categoryPage.getSelectOfNumberPerPage());
+        int expectedItemsPerPage = categoryPage.getSelectedNumberPerPage();
+        // Assert that number of items has changed in the select box
+        Assert.assertEquals(categoryPage.getSelectedNumberPerPage(),expectedItemsPerPage);
+
+        // Assert that actual number of displayed items has changed from default
+        verifyThatItemListLengthIsCorrect();
+    }
+
+    // ALSO BROKEN XD Need to change getCurrentPageNumber method
+    // now it only works for first page due to static selector
+    @Test
+    public void verifyPageChange(){
+        CategoryPage categoryPage = new CategoryPage(driver);
+        int initPageNum = categoryPage.getCurrentPageNumber();
+        categoryPage.changeToNextPage();
+        int finalPageNum = categoryPage.getCurrentPageNumber();
+        Assert.assertTrue(finalPageNum==initPageNum+1);
+    }
 
 
    // Do usunięcia
