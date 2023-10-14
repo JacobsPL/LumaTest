@@ -27,8 +27,6 @@ public class CategoryPageTest extends BaseTest{
         CategoryPage categoryPage = new CategoryPage(driver);
         int displayedItems = categoryPage.getItemList().size();
         int selectedShowItemsPerPage = categoryPage.getSelectedNumberPerPage();
-        System.out.println(displayedItems);
-        System.out.println(selectedShowItemsPerPage);
         Assert.assertEquals(displayedItems,selectedShowItemsPerPage);
     }
 

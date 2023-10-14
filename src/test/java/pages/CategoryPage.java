@@ -67,9 +67,11 @@ public class CategoryPage {
         return listOfNumberPerPage;
     }
 
+    //DOES NOT WORK - NEED TO FIND A WAY TO GET TEXT FROM <span> ELEMENT
     public int getCurrentPageNumber(){
-        WebElement spanWithPageNum = driver.findElement(By.xpath("/html/body/div[2]/main/div[3]/div[1]/div[4]/div[2]/ul/li[1]/strong/span[2]"));
-        int pageNum = Integer.parseInt(spanWithPageNum.getAttribute("textContent"));
+        WebElement spanWithPageNum = driver.findElement(By.xpath("//*[contains(text(), 'currently reading page')]"));
+        spanWithPageNum.
+        int pageNum = Integer.parseInt(spanWithPageNum.getText());
         return pageNum;
     }
     public void setNumberOfItemsPerPage(String numberPerPage, WebElement pageSelector) throws InterruptedException {
