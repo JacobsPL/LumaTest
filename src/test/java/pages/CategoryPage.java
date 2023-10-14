@@ -15,7 +15,7 @@ import static java.lang.Thread.sleep;
 
 public class CategoryPage {
 
-    @FindAll(@FindBy( css = "[class='filter-options']"))
+    @FindAll(@FindBy( css = "[class='filter-options-title']"))
     private List<WebElement> shoppingOptionsList;
     @FindBy(xpath = "//ol[@class='products list items product-items']/li")
     private List<WebElement> itemList;

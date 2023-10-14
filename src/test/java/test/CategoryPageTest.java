@@ -49,7 +49,7 @@ public class CategoryPageTest extends BaseTest{
                 "Reviews "+itemPage.getNumberOfReviews() + " ");
     }
 
-    //BROKEN
+
     @Test
     public void verifyShoppingOptionCanBeExpanded() throws InterruptedException {
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -59,9 +59,7 @@ public class CategoryPageTest extends BaseTest{
 
         sleep(5000);
         String textExpandable = shoppingOption.getAttribute("aria-expanded");
-
-        //textExpandable rerutns null... needs to be fixed
-        //Assert.assertEquals(textExpandable,"true");
+        Assert.assertEquals(textExpandable,"true");
     }
 
     @Test
