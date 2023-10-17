@@ -21,7 +21,7 @@ public class ItemPage {
     @FindAll(@FindBy( css = "[class='swatch-option color']"))
     private List<WebElement> colorBoxesList;
 
-    @FindAll(@FindBy( css = "[data-role='collapsible']"))
+    @FindAll(@FindBy( css = "[class='data switch']"))
     private List<WebElement> descriptionTabsList;
 
 
@@ -48,8 +48,6 @@ public class ItemPage {
         this.driver = driver;
 
     }
-
-
 
     public List <String> getSizeList(){
         List<String> sizeList = sizeBoxesList

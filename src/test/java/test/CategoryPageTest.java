@@ -8,20 +8,15 @@ import pages.CategoryPage;
 import pages.HomePage;
 import pages.ItemPage;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static java.lang.Thread.sleep;
 
 public class CategoryPageTest extends BaseTest{
-
 
     @BeforeMethod
     private void goToFirstCategoryOnHomePage(){
         HomePage homePage = new HomePage(driver);
         homePage.getYogaBanner().click();
     }
-
     @Test
     public void verifyThatItemListLengthIsCorrect() throws InterruptedException {
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -29,7 +24,6 @@ public class CategoryPageTest extends BaseTest{
         int selectedShowItemsPerPage = categoryPage.getSelectedNumberPerPage();
         Assert.assertEquals(displayedItems,selectedShowItemsPerPage);
     }
-
     @Test
     public void verifyRedirectToItem() {
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -42,12 +36,10 @@ public class CategoryPageTest extends BaseTest{
         Assert.assertEquals(itemPage.getDescriptionTabList().get(0),"\n" +
                 "Details ");
         Assert.assertEquals(itemPage.getDescriptionTabList().get(1),"\n" +
-                "More Information ");
+               "More Information ");
         Assert.assertEquals(itemPage.getDescriptionTabList().get(2),"\n" +
                 "Reviews "+itemPage.getNumberOfReviews() + " ");
     }
-
-
     @Test
     public void verifyShoppingOptionCanBeExpanded() throws InterruptedException {
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -59,7 +51,6 @@ public class CategoryPageTest extends BaseTest{
         String textExpandable = shoppingOption.getAttribute("aria-expanded");
         Assert.assertEquals(textExpandable,"true");
     }
-
     @Test
     public void verifyChangeItemsPerPage() throws InterruptedException {
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -71,9 +62,6 @@ public class CategoryPageTest extends BaseTest{
         // Assert that actual number of displayed items has changed from default
         verifyThatItemListLengthIsCorrect();
     }
-
-    // ALSO BROKEN XD Need to change getCurrentPageNumber method
-    // now it only works for first page due to static selector
     @Test
     public void verifyPageChange(){
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -81,16 +69,5 @@ public class CategoryPageTest extends BaseTest{
         categoryPage.changeToNextPage();
         int finalPageNum = categoryPage.getCurrentPageNumber();
         Assert.assertEquals(initPageNum + 1, finalPageNum);
-    }
-
-
-   // Do usunięcia
-    public void tylkoTestuje(){
-
-        CategoryPage categoryPage = new CategoryPage(driver);
-        driver.get(categoryPage.getCategoryPageURL());
-        List<WebElement> Test = categoryPage.getItemList();
-        List <String> itemList = Test.stream().map(el->el.getAttribute("textContent")).toList();
-        System.out.println(Arrays.toString(itemList.toArray()));
     }
 }
