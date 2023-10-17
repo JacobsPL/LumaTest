@@ -80,7 +80,7 @@ public class CategoryPageTest extends BaseTest{
         int initPageNum = categoryPage.getCurrentPageNumber();
         categoryPage.changeToNextPage();
         int finalPageNum = categoryPage.getCurrentPageNumber();
-        Assert.assertTrue(finalPageNum==initPageNum+1);
+        Assert.assertEquals(initPageNum + 1, finalPageNum);
     }
 
 
