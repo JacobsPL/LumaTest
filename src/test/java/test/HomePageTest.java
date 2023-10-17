@@ -13,15 +13,12 @@ public class HomePageTest extends BaseTest{
         //verifying that Yoga Collection page is open
         Assert.assertEquals(homePage.getYogaUrl(),homePage.goToPromoPageAndGetURL(homePage.getYogaBanner()));
     }
-
     @Test
     public void yogaButtonRedirect(){
-
         HomePage homePage = new HomePage(driver);
         //verifying that Yoga Collection page is open
         Assert.assertEquals(homePage.getYogaUrl(),homePage.goToPromoPageAndGetURL(homePage.getYogaButton()));
     }
-
     @Test
     public void verifyTeesBannerRedirect(){
         HomePage homePage = new HomePage(driver);
@@ -52,5 +49,4 @@ public class HomePageTest extends BaseTest{
         //verifying that Eco Collection page is open
         Assert.assertEquals(homePage.getEcoUrl(),homePage.goToPromoPageAndGetURL(homePage.getEcoBanner()));
     }
-
 }
