@@ -41,4 +41,49 @@ public class ItemPageTest extends BaseTest{
         //Assert that added items to the empty cart are equal to the cart size
         Assert.assertEquals(addingQuantity,finalCartCount);
     }
+
+    @Test
+    public void verifyErrorMessageIfSizeNotChosen() throws InterruptedException {
+        ItemPage itemPage = new ItemPage(driver);
+        sleep(2000);
+        itemPage.addItemToCart();
+
+        String sizeErrorMessage = itemPage.getErrorList().get(0);
+        System.out.println(sizeErrorMessage);
+        Assert.assertEquals(sizeErrorMessage,"This is a required field.");
+    }
+    @Test
+    public void verifyErrorMessageIfColorNotChosen() throws InterruptedException {
+        ItemPage itemPage = new ItemPage(driver);
+        sleep(2000);
+        itemPage.addItemToCart();
+
+        String colorErrorMessage = itemPage.getErrorList().get(1);
+        System.out.println(colorErrorMessage);
+        Assert.assertEquals(colorErrorMessage,"This is a required field.");
+    }
+    @Test
+    public void verifyErrorMessageIfAmountNotChosen() throws InterruptedException {
+        ItemPage itemPage = new ItemPage(driver);
+
+        itemPage.setEmptyQuantity();
+        sleep(2000);
+        itemPage.addItemToCart();
+
+        String noAmountErrorMessage = itemPage.getErrorList().get(2);
+        System.out.println(noAmountErrorMessage);
+        Assert.assertEquals(noAmountErrorMessage,"Please enter a valid number in this field.");
+    }
+    @Test
+    public void verifyErrorMessageIfAmountMoreThen10000() throws InterruptedException {
+        ItemPage itemPage = new ItemPage(driver);
+
+        itemPage.setItemsQuantity(10001);
+        sleep(2000);
+        itemPage.addItemToCart();
+
+        String noAmountErrorMessage = itemPage.getErrorList().get(2);
+        System.out.println(noAmountErrorMessage);
+        Assert.assertEquals(noAmountErrorMessage,"The maximum you may purchase is 10000.");
+    }
 }

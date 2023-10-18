@@ -24,6 +24,8 @@ public class ItemPage {
     @FindAll(@FindBy( css = "[class='data switch']"))
     private List<WebElement> descriptionTabsList;
 
+    @FindAll(@FindBy( css = "[class='mage-error']"))
+    private List<WebElement> errorList;
 
     @FindBy(id = "qty")
     private WebElement quantityInputBox;
@@ -43,6 +45,7 @@ public class ItemPage {
         CategoryPage categoryPage = new CategoryPage(driver);
         categoryPage.getItemList().get(0).click();
     }
+
     public ItemPage(WebDriver driver){
         PageFactory.initElements(driver, this);
         this.driver = driver;
@@ -74,6 +77,13 @@ public class ItemPage {
         return descriptionTabList;
     }
 
+    public List<String> getErrorList(){
+        List<String> errorStringsList = errorList
+                .stream()
+                .map(el->el.getAttribute("textContent"))
+                .toList();
+        return errorStringsList;
+    }
     public void printSizeList(){
         System.out.println(Arrays.toString(getSizeList().toArray()));
     }
@@ -97,6 +107,11 @@ public class ItemPage {
         quantityInputBox.sendKeys(String.valueOf(quantity));
     }
 
+    public void setEmptyQuantity(){
+        quantityInputBox.click();
+        quantityInputBox.clear();
+    }
+
     public void addItemToCart(){
         addToCartButton.click();
     }
@@ -107,10 +122,8 @@ public class ItemPage {
         System.out.println(cartCounter.getText());
         return Integer.parseInt(cartCounter.getText());
     }
-
     public int getNumberOfReviews(){
         int num = Integer.parseInt(numberOfReviews.getAttribute("textContent"));
         return num;
     }
-
 }
