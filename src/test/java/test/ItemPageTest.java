@@ -86,4 +86,20 @@ public class ItemPageTest extends BaseTest{
         System.out.println(noAmountErrorMessage);
         Assert.assertEquals(noAmountErrorMessage,"The maximum you may purchase is 10000.");
     }
+
+    @Test
+    public void verifyAddingReview() throws InterruptedException {
+        ItemPage itemPage = new ItemPage(driver);
+        itemPage.openReviewTab();
+        itemPage.setStarReview(5);
+        itemPage.setNickname("Jeff");
+        itemPage.setSummary("My name is");
+        itemPage.setReview("And his name is John Cenaaaaa!!!!!");
+        itemPage.clickSubmitReviewButton();
+
+        sleep(5000);
+        Assert.assertEquals(itemPage.getAlertMessage(),"You submitted your review for moderation.");
+
+    }
+
 }

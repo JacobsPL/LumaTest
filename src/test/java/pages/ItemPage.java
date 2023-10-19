@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
@@ -12,7 +13,6 @@ import java.util.List;
 
 public class ItemPage {
 
-   // List<String> sizeList;
     WebDriver driver;
 
     @FindAll(@FindBy( css = "[class='swatch-option text']"))
@@ -27,6 +27,10 @@ public class ItemPage {
     @FindAll(@FindBy( css = "[class='mage-error']"))
     private List<WebElement> errorList;
 
+    @FindAll(@FindBy( xpath = "//input[contains(@id,'Rating')]"))
+    private List<WebElement> starsList;
+
+
     @FindBy(id = "qty")
     private WebElement quantityInputBox;
 
@@ -35,11 +39,27 @@ public class ItemPage {
 
     @FindBy( css = "[class='count']")
     private WebElement cartCounter;
+
     @FindBy (css = "[class='action showcart']")
     private WebElement cartIcon;
 
     @FindBy (css = "[class='counter']")
     private WebElement numberOfReviews;
+
+    @FindBy (id = "nickname_field")
+    private WebElement nickNameField;
+
+    @FindBy (id = "summary_field")
+    private WebElement summaryField;
+
+    @FindBy (id = "review_field")
+    private WebElement reviewField;
+
+    @FindBy (css = "button[class='action submit primary']")
+    private WebElement submitReviewButton;
+
+    @FindBy (css = "[data-bind='html: $parent.prepareMessageForHtml(message.text)']")
+    private WebElement alertMessage;
 
     private void goToFirstItemOnYogaPage(){
         CategoryPage categoryPage = new CategoryPage(driver);
@@ -125,5 +145,34 @@ public class ItemPage {
     public int getNumberOfReviews(){
         int num = Integer.parseInt(numberOfReviews.getAttribute("textContent"));
         return num;
+    }
+
+    public void openReviewTab(){
+        descriptionTabsList.get(2).click();
+    }
+
+    public void setStarReview(int rate) throws InterruptedException {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();",starsList.get(rate-1));
+    }
+
+    public void setNickname(String name){
+        nickNameField.sendKeys(name);
+    }
+
+    public void setSummary(String summary){
+        summaryField.sendKeys(summary);
+    }
+
+    public void setReview(String review){
+        reviewField.sendKeys(review);
+    }
+
+    public void clickSubmitReviewButton(){
+        submitReviewButton.click();
+    }
+
+    public String getAlertMessage(){
+        return alertMessage.getAttribute("textContent");
     }
 }
