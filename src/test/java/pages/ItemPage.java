@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -30,6 +31,8 @@ public class ItemPage {
     @FindAll(@FindBy( xpath = "//input[contains(@id,'Rating')]"))
     private List<WebElement> starsList;
 
+    @FindAll(@FindBy( xpath = "//a[@class='action tocompare']/span"))
+    private List<WebElement> compareToButtonsList;
 
     @FindBy(id = "qty")
     private WebElement quantityInputBox;
@@ -174,5 +177,13 @@ public class ItemPage {
 
     public String getAlertMessage(){
         return alertMessage.getAttribute("textContent");
+    }
+
+    public void addItemToCompareFromList(int itemIndex){
+        Actions action = new Actions(driver);
+        action.moveToElement(compareToButtonsList.get(itemIndex));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();",compareToButtonsList.get(itemIndex));
+        //compareToButtonsList.get(itemIndex).click();
     }
 }

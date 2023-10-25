@@ -12,18 +12,20 @@ import static java.lang.Thread.sleep;
 
 public class ItemPageTest extends BaseTest{
 
+    ItemPage itemPage;
     @BeforeMethod
     private void goToFirstItemOnFirstCategoryFromHomePage(){
+        driver.manage().deleteAllCookies();
         HomePage homePage = new HomePage(driver);
         homePage.getYogaBanner().click();
         CategoryPage categoryPage = new CategoryPage(driver);
         categoryPage.getItemList().get(0).click();
+        itemPage = new ItemPage(driver);
     }
 
     @Test
     public void verifyAddingItemToCart() throws InterruptedException {
 
-        ItemPage itemPage = new ItemPage(driver);
         WebElement sizeButton = itemPage.getNewSizeButton(itemPage.getSizeList().get(0));
         sizeButton.click();
 
@@ -44,7 +46,6 @@ public class ItemPageTest extends BaseTest{
 
     @Test
     public void verifyErrorMessageIfSizeNotChosen() throws InterruptedException {
-        ItemPage itemPage = new ItemPage(driver);
         sleep(2000);
         itemPage.addItemToCart();
 
@@ -54,7 +55,6 @@ public class ItemPageTest extends BaseTest{
     }
     @Test
     public void verifyErrorMessageIfColorNotChosen() throws InterruptedException {
-        ItemPage itemPage = new ItemPage(driver);
         sleep(2000);
         itemPage.addItemToCart();
 
@@ -64,7 +64,6 @@ public class ItemPageTest extends BaseTest{
     }
     @Test
     public void verifyErrorMessageIfAmountNotChosen() throws InterruptedException {
-        ItemPage itemPage = new ItemPage(driver);
 
         itemPage.setEmptyQuantity();
         sleep(2000);
@@ -76,7 +75,6 @@ public class ItemPageTest extends BaseTest{
     }
     @Test
     public void verifyErrorMessageIfAmountMoreThen10000() throws InterruptedException {
-        ItemPage itemPage = new ItemPage(driver);
 
         itemPage.setItemsQuantity(10001);
         sleep(2000);
@@ -89,7 +87,6 @@ public class ItemPageTest extends BaseTest{
 
     @Test
     public void verifyAddingReview() throws InterruptedException {
-        ItemPage itemPage = new ItemPage(driver);
         itemPage.openReviewTab();
         itemPage.setStarReview(5);
         itemPage.setNickname("Jeff");
@@ -99,7 +96,15 @@ public class ItemPageTest extends BaseTest{
 
         sleep(5000);
         Assert.assertEquals(itemPage.getAlertMessage(),"You submitted your review for moderation.");
+    }
 
+    // DOES NOT WORK - DONT KNOW WHY.
+    @Test
+    public void verifyComparingProducts() throws InterruptedException {
+        itemPage.addItemToCompareFromList(1);
+        String confirmationMessage = itemPage.getAlertMessage();
+        System.out.println(confirmationMessage);
+        sleep(5000);
     }
 
 }
