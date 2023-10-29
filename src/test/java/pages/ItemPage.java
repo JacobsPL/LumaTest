@@ -31,8 +31,8 @@ public class ItemPage {
     @FindAll(@FindBy( xpath = "//input[contains(@id,'Rating')]"))
     private List<WebElement> starsList;
 
-    @FindAll(@FindBy( xpath = "//a[@class='action tocompare']/span"))
-    private List<WebElement> compareToButtonsList;
+    @FindBy( xpath = "//a[@class='action tocompare']/span")
+    private WebElement compareToButtonsList;
 
     @FindBy(id = "qty")
     private WebElement quantityInputBox;
@@ -135,8 +135,13 @@ public class ItemPage {
         quantityInputBox.clear();
     }
 
+
     public void addItemToCart(){
         addToCartButton.click();
+    }
+
+    public WebElement getAddToCartButton(){
+        return addToCartButton;
     }
 
     // TO BE DONE - Works only if there is already item in cart and the cart is not loading new item \/
@@ -144,6 +149,10 @@ public class ItemPage {
         cartIcon.click();
         System.out.println(cartCounter.getText());
         return Integer.parseInt(cartCounter.getText());
+    }
+
+    public WebElement getCartCounter(){
+        return cartCounter;
     }
     public int getNumberOfReviews(){
         int num = Integer.parseInt(numberOfReviews.getAttribute("textContent"));
@@ -175,15 +184,19 @@ public class ItemPage {
         submitReviewButton.click();
     }
 
-    public String getAlertMessage(){
+    public String getAlertMessageText(){
         return alertMessage.getAttribute("textContent");
     }
 
-    public void addItemToCompareFromList(int itemIndex){
+    public WebElement getAlertMessage(){
+        return alertMessage;
+    }
+
+    public void addItemToCompareFromList(){
         Actions action = new Actions(driver);
-        action.moveToElement(compareToButtonsList.get(itemIndex));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();",compareToButtonsList.get(itemIndex));
-        //compareToButtonsList.get(itemIndex).click();
+        action.moveToElement(compareToButtonsList);
+      //  JavascriptExecutor js = (JavascriptExecutor) driver;
+      //  ((JavascriptExecutor) driver).executeScript("arguments[0].click();",compareToButtonsList);
+        compareToButtonsList.click();
     }
 }

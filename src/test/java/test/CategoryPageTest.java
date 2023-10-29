@@ -1,6 +1,7 @@
 package test;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -8,7 +9,7 @@ import pages.CategoryPage;
 import pages.HomePage;
 import pages.ItemPage;
 
-import static java.lang.Thread.sleep;
+import java.time.Duration;
 
 public class CategoryPageTest extends BaseTest{
 
@@ -40,14 +41,21 @@ public class CategoryPageTest extends BaseTest{
         Assert.assertEquals(itemPage.getDescriptionTabList().get(2),"\n" +
                 "Reviews "+itemPage.getNumberOfReviews() + " ");
     }
+
+    //This wait methods needs to be fixed
     @Test
     public void verifyShoppingOptionCanBeExpanded() throws InterruptedException {
         CategoryPage categoryPage = new CategoryPage(driver);
         WebElement shoppingOption = categoryPage.getShoppingOptionsList().get(0);
-        sleep(1000);
+
+        //sleep(1000);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(x -> shoppingOption.isEnabled());
         shoppingOption.click();
 
-        sleep(5000);
+        //sleep(5000)
+        wait.until(x -> shoppingOption.isSelected());
         String textExpandable = shoppingOption.getAttribute("aria-expanded");
         Assert.assertEquals(textExpandable,"true");
     }

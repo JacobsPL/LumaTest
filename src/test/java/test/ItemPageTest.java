@@ -1,6 +1,7 @@
 package test;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -8,11 +9,14 @@ import pages.CategoryPage;
 import pages.HomePage;
 import pages.ItemPage;
 
+import java.time.Duration;
+
 import static java.lang.Thread.sleep;
 
 public class ItemPageTest extends BaseTest{
 
     ItemPage itemPage;
+    WebDriverWait wait;
     @BeforeMethod
     private void goToFirstItemOnFirstCategoryFromHomePage(){
         driver.manage().deleteAllCookies();
@@ -21,6 +25,7 @@ public class ItemPageTest extends BaseTest{
         CategoryPage categoryPage = new CategoryPage(driver);
         categoryPage.getItemList().get(0).click();
         itemPage = new ItemPage(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     @Test
@@ -37,7 +42,7 @@ public class ItemPageTest extends BaseTest{
         itemPage.addItemToCart();
 
         //Kinda works - need more elegant solution
-        sleep(5000);
+        wait.until(x->itemPage.getCartCounter().isEnabled());
         int finalCartCount = itemPage.getCartCount();
 
         //Assert that added items to the empty cart are equal to the cart size
@@ -46,7 +51,7 @@ public class ItemPageTest extends BaseTest{
 
     @Test
     public void verifyErrorMessageIfSizeNotChosen() throws InterruptedException {
-        sleep(2000);
+        wait.until(x->itemPage.getAddToCartButton().isEnabled());
         itemPage.addItemToCart();
 
         String sizeErrorMessage = itemPage.getErrorList().get(0);
@@ -55,7 +60,7 @@ public class ItemPageTest extends BaseTest{
     }
     @Test
     public void verifyErrorMessageIfColorNotChosen() throws InterruptedException {
-        sleep(2000);
+        wait.until(x->itemPage.getAddToCartButton().isEnabled());
         itemPage.addItemToCart();
 
         String colorErrorMessage = itemPage.getErrorList().get(1);
@@ -66,7 +71,8 @@ public class ItemPageTest extends BaseTest{
     public void verifyErrorMessageIfAmountNotChosen() throws InterruptedException {
 
         itemPage.setEmptyQuantity();
-        sleep(2000);
+
+        wait.until(x->itemPage.getAddToCartButton().isDisplayed());
         itemPage.addItemToCart();
 
         String noAmountErrorMessage = itemPage.getErrorList().get(2);
@@ -77,11 +83,9 @@ public class ItemPageTest extends BaseTest{
     public void verifyErrorMessageIfAmountMoreThen10000() throws InterruptedException {
 
         itemPage.setItemsQuantity(10001);
-        sleep(2000);
         itemPage.addItemToCart();
 
         String noAmountErrorMessage = itemPage.getErrorList().get(2);
-        System.out.println(noAmountErrorMessage);
         Assert.assertEquals(noAmountErrorMessage,"The maximum you may purchase is 10000.");
     }
 
@@ -94,15 +98,17 @@ public class ItemPageTest extends BaseTest{
         itemPage.setReview("And his name is John Cenaaaaa!!!!!");
         itemPage.clickSubmitReviewButton();
 
-        sleep(5000);
-        Assert.assertEquals(itemPage.getAlertMessage(),"You submitted your review for moderation.");
+        wait.until(x->itemPage.getAlertMessage().isDisplayed());
+        Assert.assertEquals(itemPage.getAlertMessageText(),"You submitted your review for moderation.");
     }
 
     // DOES NOT WORK - DONT KNOW WHY.
     @Test
     public void verifyComparingProducts() throws InterruptedException {
-        itemPage.addItemToCompareFromList(1);
-        String confirmationMessage = itemPage.getAlertMessage();
+        // THIS DOES NOT WORK
+        driver.get("https://magento.softwaretestingboard.com/zeppelin-yoga-pant.html");
+        itemPage.addItemToCompareFromList();
+        String confirmationMessage = itemPage.getAlertMessageText();
         System.out.println(confirmationMessage);
         sleep(5000);
     }

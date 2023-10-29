@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -55,6 +56,12 @@ public class CategoryPage {
 
     public List<WebElement> getShoppingOptionsList(){
         return shoppingOptionsList;
+    }
+
+    public List<WebElement> getOptionsFromShoppingListElement(int shoppingListElementIndex){
+        List<WebElement> list = driver.findElements(By.xpath("\"//div[@class='filter-options-content']\")["
+                +shoppingListElementIndex+"]"));
+
     }
 
     public WebElement getSelectOfNumberPerPage() {
