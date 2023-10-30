@@ -20,11 +20,15 @@ public class CategoryPage {
     @FindBy(xpath = "//ol[@class='products list items product-items']/li")
     private List<WebElement> itemList;
 
+    @FindBy(xpath = "//ol[@class='products list items product-items']/li/div/div/strong/a")
+    private List<WebElement> itemNamesList;
     @FindBy(xpath = "//select[@id='limiter']/option[@selected]")
     private WebElement listOfNumberPerPage;
 
     @FindBy (xpath = "/html/body/div[2]/main/div[3]/div[1]/div[4]/div[3]/div/select")
     private WebElement selectOfNumberPerPage;
+    @FindBy(xpath = "/html/body/div[2]/main/div[3]/div[1]/div[2]/div[3]/select")
+    private WebElement selectOfSortBy;
 
     @FindBy (css = "[class='counter-number']")
     private WebElement itemsAmountInCart;
@@ -36,9 +40,22 @@ public class CategoryPage {
     private WebElement nextPageButton;
 
     @FindBy(xpath = "//*[contains(text(), 'currently reading page')]/../span[2]")
-    WebElement spanWithPageNumber;
+    private WebElement spanWithPageNumber;
 
-    //private String yogaURL = "https://magento.softwaretestingboard.com/collections/yoga-new.html";
+    @FindBy(id = "mode-grid")
+    private WebElement gridButton;
+
+    @FindBy(id = "mode-list")
+    private WebElement listButton;
+
+    @FindBy(css = "[class='modes-mode active mode-grid']")
+    private WebElement gridConfirmation;
+
+    @FindBy(css = "[class='modes-mode active mode-list']")
+    private WebElement listConfirmation;
+
+
+
     WebDriver driver;
     Actions action;
 
@@ -54,18 +71,27 @@ public class CategoryPage {
         return itemList;
     }
 
+    public List<WebElement> getItemNamesList(){
+        return itemNamesList;
+    }
+
     public List<WebElement> getShoppingOptionsList(){
         return shoppingOptionsList;
     }
 
-    public List<WebElement> getOptionsFromShoppingListElement(int shoppingListElementIndex){
-        List<WebElement> list = driver.findElements(By.xpath("\"//div[@class='filter-options-content']\")["
+    @Deprecated
+    public WebElement getOptionsFromShoppingListElement(int shoppingListElementIndex){
+        WebElement list = driver.findElement(By.xpath("\"//div[@class='filter-options-content']\")["
                 +shoppingListElementIndex+"]"));
-
+        return list;
     }
 
     public WebElement getSelectOfNumberPerPage() {
         return selectOfNumberPerPage;
+    }
+
+    public WebElement getSelectOfSortBy(){
+        return selectOfSortBy;
     }
 
     public int getSelectedNumberPerPage() {
@@ -79,10 +105,10 @@ public class CategoryPage {
     public int getCurrentPageNumber(){
         return  Integer.parseInt(spanWithPageNumber.getAttribute("textContent"));
     }
-    public void setNumberOfItemsPerPage(String numberPerPage, WebElement pageSelector) throws InterruptedException {
-        Select selectSelector = new Select(pageSelector);
-        sleep(5000);
-        selectSelector.selectByValue(numberPerPage);
+    public void setValueInSelector(String value, WebElement selector) throws InterruptedException {
+        Select selectSelector = new Select(selector);
+        sleep(1000);
+        selectSelector.selectByValue(value);
     }
 
     public void changeToNextPage(){
@@ -92,6 +118,17 @@ public class CategoryPage {
         return driver.getCurrentUrl();
     }
 
-
+    public WebElement getListButton(){
+        return listButton;
+    }
+    public void changeViewToList(){
+        listButton.click();
+    }
+    public void changeViewToGrid(){
+        gridButton.click();
+    }
+    public WebElement getListConfirmation(){
+        return listConfirmation;
+    }
 
 }
